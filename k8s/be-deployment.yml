@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestjs-realword-example-app-deployment
+  namespace: nestjs
+  labels:
+    app: nestjs-realword-example-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nestjs-realword-example-app
+      tier: be
+  template:
+    metadata:
+      labels:
+        app: nestjs-realword-example-app
+        tier: be
+    spec:
+      containers:
+      - name: nestjs-realword-example-app
+        image: nestjsdemo:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        #- mountPath: /app/logs
+        #  name: be-logs
+        - mountPath: /home/node/sessions
+          name: task-pv-storage
+        - mountPath: /home/node/ormconfig.json
+          subPath: path/to/ormconfig.json
+          name: orm-config
+      volumes:
+      #- name: be-logs
+      #  persistentVolumeClaim:
+      #    claimName: zcboot-pvc
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      - name: orm-config
+        configMap:
+          name: nestjs-realword-example-orm-config
+          items:
+          - key: orm-config
+            path: path/to/ormconfig.json

@@ -9,7 +9,7 @@ import { UserRO } from './user.interface';
 import { validate } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { HttpStatus } from '@nestjs/common';
-import * as argon2 from 'argon2';
+import * as md5 from 'md5';
 
 @Injectable()
 export class UserService {
@@ -28,7 +28,7 @@ export class UserService {
       return null;
     }
 
-    if (await argon2.verify(user.password, password)) {
+    if (user.password=== md5(password)) {
       return user;
     }
 

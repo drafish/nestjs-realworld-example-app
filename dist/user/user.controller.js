@@ -12,15 +12,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
+const express_1 = require("express");
 const user_service_1 = require("./user.service");
 const dto_1 = require("./dto");
 const http_exception_1 = require("@nestjs/common/exceptions/http.exception");
@@ -51,7 +54,7 @@ let UserController = class UserController {
             return yield this.userService.delete(params.slug);
         });
     }
-    login(loginUserDto) {
+    login(loginUserDto, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _user = yield this.userService.findOne(loginUserDto);
             const errors = { User: ' not found' };
@@ -60,6 +63,8 @@ let UserController = class UserController {
             const token = yield this.userService.generateJWT(_user);
             const { email, username, bio, image } = _user;
             const user = { email, token, username, bio, image };
+            console.log(request.session);
+            request.session.user = user;
             return { user };
         });
     }
@@ -96,14 +101,14 @@ __decorate([
 __decorate([
     common_1.UsePipes(new validation_pipe_1.ValidationPipe()),
     common_1.Post('users/login'),
-    __param(0, common_1.Body('user')),
+    __param(0, common_1.Body('user')), __param(1, common_1.Req()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.LoginUserDto]),
+    __metadata("design:paramtypes", [dto_1.LoginUserDto, typeof (_a = typeof express_1.Request !== "undefined" && express_1.Request) === "function" ? _a : Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "login", null);
 UserController = __decorate([
     swagger_1.ApiBearerAuth(),
-    swagger_1.ApiUseTags('user'),
+    swagger_1.ApiTags('user'),
     common_1.Controller(),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);

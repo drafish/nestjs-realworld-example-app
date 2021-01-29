@@ -20,7 +20,7 @@ let ArticleModule = class ArticleModule {
     configure(consumer) {
         consumer
             .apply(auth_middleware_1.AuthMiddleware)
-            .forRoutes({ path: 'articles/feed', method: common_1.RequestMethod.GET }, { path: 'articles', method: common_1.RequestMethod.POST }, { path: 'articles/:slug', method: common_1.RequestMethod.DELETE }, { path: 'articles/:slug', method: common_1.RequestMethod.PUT }, { path: 'articles/:slug/comments', method: common_1.RequestMethod.POST }, { path: 'articles/:slug/comments/:id', method: common_1.RequestMethod.DELETE }, { path: 'articles/:slug/favorite', method: common_1.RequestMethod.POST }, { path: 'articles/:slug/favorite', method: common_1.RequestMethod.DELETE });
+            .forRoutes({ path: 'articles/feed', method: common_1.RequestMethod.GET }, { path: 'articles', method: common_1.RequestMethod.POST }, { path: 'articles', method: common_1.RequestMethod.GET }, { path: 'articles/:slug', method: common_1.RequestMethod.DELETE }, { path: 'articles/:slug', method: common_1.RequestMethod.PUT }, { path: 'articles/:slug/comments', method: common_1.RequestMethod.POST }, { path: 'articles/:slug/comments/:id', method: common_1.RequestMethod.DELETE }, { path: 'articles/:slug/favorite', method: common_1.RequestMethod.POST }, { path: 'articles/:slug/favorite', method: common_1.RequestMethod.DELETE });
     }
 };
 ArticleModule = __decorate([

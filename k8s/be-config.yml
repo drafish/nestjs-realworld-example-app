@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nestjs-realword-example-orm-config
+  namespace: nestjs
+data:
+  orm-config: |
+    {
+      "type": "mysql",
+      "host": "192.168.199.102",
+      "port": 3306,
+      "username": "root",
+      "password": "123456",
+      "database": "nestjsrealworld",
+      "entities": ["dist/**/**.entity{.ts,.js}"],
+      "synchronize": true
+    }

@@ -23,6 +23,7 @@ export class ArticleModule implements NestModule {
       .forRoutes(
         {path: 'articles/feed', method: RequestMethod.GET},
         {path: 'articles', method: RequestMethod.POST},
+        {path: 'articles', method: RequestMethod.GET},
         {path: 'articles/:slug', method: RequestMethod.DELETE},
         {path: 'articles/:slug', method: RequestMethod.PUT},
         {path: 'articles/:slug/comments', method: RequestMethod.POST},
